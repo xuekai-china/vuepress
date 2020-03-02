@@ -179,6 +179,36 @@ VuePress 提供了一种添加额外样式的简便方法。你可以创建一�
 }
 ```
 
+::: warning
+由于背后的行为，不论是在 `palette.styl` 或是 `index.styl` ，都不能透过 [@import / @require](https://stylus-lang.com/docs/import.html) 從**相对路径**引用一般的 `.css` 样式表。
+:::
+
+::: tip
+那如果你非得要 import / require 一般的 `.css` 样式表呢？ **绝对路径**。
+
+1. 从 npm package 引用档案：
+
+``` stylus
+@require '~my-css-package/style.css'
+```
+
+2. 引用本地档案：
+
+因为已经有 [alias](../plugin/option-api.html#alias) 这个选项，使用 webpack 别名会是最简单的方式，举例如下：
+
+```js
+// config.js
+ alias: {
+    'styles': path.resolve(__dirname, './styles')
+  }
+```
+
+``` stylus
+@require '~styles/style.css'
+```
+:::
+
+
 ## 主题
 
 ### theme
@@ -313,7 +343,7 @@ module.exports = {
 - 默认值: `['h2', 'h3']`
 
 Markdown 文件的 headers (标题 & 小标题) 会在准备阶段被提取出来，并存储在 `this.$page.headers` 中。默认情况下，VuePress 会提取 `h2` 和 `h3` 标题。你可以通过这个选项来修改提取出的标题级别。
- 
+
 ``` js
 module.exports = {
   markdown: {
